@@ -16,7 +16,7 @@ module.exports = {
         let id = args[0]
         if(!id) return message.reply("Você não colocou Um ID") // VAI RETORNAR SE NÃO BOTAR STEAM HEX
         let valor = 1
-        let sql = `UPDATE vrp_infos SET whitelist = '${valor}' WHERE user_id = '${id}'`
+        let sql = `UPDATE vrp_infos SET whitelist = '${valor}' WHERE user_id = '${id}'` // MUDA DE DB PARA DB
         con.query(sql, function (err, result) {
             if (err) throw err;
             let embed = new Discord.MessageEmbed()
