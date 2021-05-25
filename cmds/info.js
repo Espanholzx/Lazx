@@ -1,5 +1,6 @@
 const Discord = require("discord.js")
 const mysql = require("mysql")
+const {name, ip, db, password} = require('./db.json');
 
 module.exports = {
     name: "info",
@@ -7,25 +8,24 @@ module.exports = {
     aliases: ["info"],
     async execute(bot,message,args) {
         let con = mysql.createConnection({
-            host: "127.0.0.1", // ip da db
-            user: "root", // user da db
-            password: "", // senha da db
-            database: "vrp" // nome da db
+            host: ip,
+            user: name,
+            password: password,
+            database: db,
         })
         let id = args[0]
-         con.query(`SELECT phone FROM vrp_user_identities WHERE user_id = '${id}'`, function (err, result1, field) { // Pode mudar de db para db (Não sei como ta a tua)
+         con.query(`SELECT phone FROM vrp_users WHERE id = '${id}'`, function (err, result1, field) {
 
-        con.query(`SELECT registration FROM vrp_user_identities WHERE user_id = '${id}'`, function (err, result2, field) { // Pode mudar de db para db (Não sei como ta a tua)
+        con.query(`SELECT registration FROM vrp_users WHERE id = '${id}'`, function (err, result2, field) {
 
-       con.query(`SELECT firstname FROM vrp_user_identities WHERE user_id = '${id}'`, function (err, result3, field) { // Pode mudar de db para db (Não sei como ta a tua)
+       con.query(`SELECT name FROM vrp_users WHERE id = '${id}'`, function (err, result3, field) {
 
-   con.query(`SELECT name FROM vrp_user_identities WHERE user_id = '${id}'`, function (err, result4, field) { // Pode mudar de db para db (Não sei como ta a tua)
+   con.query(`SELECT name2 FROM vrp_users WHERE id = '${id}'`, function (err, result4, field) {
 
-con.query(`SELECT age FROM vrp_user_identities WHERE user_id = '${id}'`, function (err, result5, field) { // Pode mudar de db para db (Não sei como ta a tua)
-    con.query(`SELECT bank FROM vrp_user_moneys WHERE user_id = '${id}'`, function (err, result6, field) { // Pode mudar de db para db (Não sei como ta a tua)
- 
+    con.query(`SELECT bank FROM vrp_users WHERE id = '${id}'`, function (err, result6, field) {
+
 let embed = new Discord.MessageEmbed()
-.addField("**Nome:**", `\`\`\`${result3[0].firstname}\`\`\``) 
+.addField("**Nome:**", `\`\`\`${result3[0].firstname}\`\`\``)
 .addField("**Sobrenome:**", `\`\`\`${result4[0].name}\`\`\``)
 .addField("**Idade:**", `\`\`\`${result5[0].age}\`\`\``)
 .addField("**Telefone:**", `\`\`\`${result1[0].phone}\`\`\``)
@@ -34,7 +34,6 @@ let embed = new Discord.MessageEmbed()
 message.channel.send(embed)
 message.delete()
 
-})
 })
 })
 })
